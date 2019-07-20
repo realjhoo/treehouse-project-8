@@ -1,0 +1,129 @@
+*** P CODE ***
+on load
+    the page gets the API and brings in JSON data
+    parse JSON data
+    build cards
+    loop through JSON
+        use code from Dashboard project
+            gin up html code
+            lastName = employee[i].sur_name
+            etc
+            gin up closing tags
+            set first card to DOM
+        move on to next card
+
+============= EXAMPLE FROM TIME AND WEATHER ================
+ const proxy = "https://cors-anywhere.herokuapp.com/";
+         const api = `${proxy}https://api.darksky.net/forecast/fc6838719bc5539953da7994c98bd6c6/${lat},${long}`;
+
+         fetch(api)
+            .then(weather_data => {
+               return weather_data.json();
+            })
+            .then(weather_data => {
+               const { temperature } = weather_data.currently;
+               const { summary } = weather_data.currently;
+               const { apparentTemperature } = weather_data.currently;
+
+               temp.innerHTML =
+                  "Temperature: " + parseInt(temperature) + "&#176;";
+               heat_index.innerHTML =
+                  "Heat index: " + parseInt(apparentTemperature) + "&#176;";
+               summ.textContent = "Currently, it's " + summary.toLowerCase();
+            });
+      });
+
+========== EXAMPLE FROM DASHBOARD ==========
+unction insertMemberActivity() {
+   const newMemberData = [
+      {
+         name: "Victoria Chambers",
+         image: "images/member-1.jpg",
+         email: "victoria.chambers80@example.com",
+         date: "10/15/15",
+         message: "commented on YourApp's SEO Tips",
+         time: "4 hours ago"
+      },
+      {
+         name: "Dale Byrd",
+         image: "images/member-2.jpg",
+         email: "dale.byrd52@example.com",
+         date: "10/15/15",
+         message: "liked the post Facebook's Changes for 2016",
+         time: "5 hours ago"
+      },
+      {
+         name: "Dawn Wood",
+         image: "images/member-3.jpg",
+         email: "dawn.wood16@example.com",
+         date: "10/15/15",
+         message: "commented on Facebook's Changes for 2016",
+         time: "5 hours ago"
+      },
+      {
+         name: "Dan Oliver",
+         image: "images/member-4.jpg",
+         email: "dan.oliver82@example.com",
+         date: "10/14/15",
+         message: "posted YourApp's SEO Tips",
+         time: "1 day ago"
+      }
+   ];
+
+   for (let i = 0; i < newMemberData.length; i++) {
+      // GET TARGET DIV & CREATE CONTAINER for MEMBER DATA =-=-=-=
+      let new_member_wrapper = document.getElementById("new-member-wrapper");
+      let member_div = document.createElement("div");
+      member_div.setAttribute("class", "member-div");
+      new_member_wrapper.appendChild(member_div);
+
+      // =-=-=-=-= SET MEMBER AVATER IMAGE =-=-=-=-=-=-=-=-=-=
+      let member_image = document.createElement("img");
+      member_image.setAttribute("src", newMemberData[i].image);
+      member_image.setAttribute("class", "member-avatar");
+      member_div.appendChild(member_image);
+
+      // =-=-=-=-=-=-= INSERT NAME, EMAIL & DATE -=-=-=-=-=-=-=
+      newElement("p", "member-name", newMemberData[i].name, member_div);
+      newElement("p", "member-email", newMemberData[i].email, member_div);
+      newElement("p", "member-date", newMemberData[i].date, member_div);
+
+      // GET TARGET DIV & CREATE CONTAINER for MEMBER ACTIVITY
+      let recent_activity_wrapper = document.getElementById(
+         "recent-activity-wrapper"
+      );
+      let activity_div = document.createElement("div");
+      activity_div.setAttribute("class", "activity-div");
+      recent_activity_wrapper.appendChild(activity_div);
+
+      // =-=-=-=-=-=-=-=-=-= INSERT MEMBER AVATAR =-=-=-=-=-=-=
+      member_image = document.createElement("img");
+      member_image.setAttribute("src", newMemberData[i].image);
+      member_image.setAttribute("class", "member-avatar");
+      activity_div.appendChild(member_image);
+
+      // =-=-=-= CREATE COMMENT DIV and INSERT COMMENT =-=-=-=-=
+      let comment_div = document.createElement("div"); //may need class
+      activity_div.appendChild(comment_div);
+      let memberComment =
+         newMemberData[i].name + " " + newMemberData[i].message;
+
+      // =-=-= INSERT COMMENT, TIME and ARROW POINTER =-=-=-=-=-=
+      newElement("p", "member-comment", memberComment, comment_div);
+      newElement("p", "time-ago", newMemberData[i].time, activity_div);
+      newElement("p", "greater-than", "＞", activity_div);
+   }
+}
+function newElement(element, class_name, member_data, insert_point) {
+   let element_name = document.createElement(element);
+   element_name.setAttribute("class", class_name);
+   element_name.textContent = member_data;
+   insert_point.appendChild(element_name);
+}
+
+POSSIBLE html     <!-- JavaScript would gen up something like:
+        <span class="image"></span>
+        <span class="first-name"></span>
+        <span class="sur-name"></span>
+        <span class="email"></span>
+        <span class="city"></span> -->
