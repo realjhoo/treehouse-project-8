@@ -4,10 +4,6 @@
    margin: 0;
 }
 
-canvas {
-   max-width: 100%;
-}
-
 body {
    font-family: 'Montserrat', sans-serif;
    background-color: #FBFCFB;
@@ -19,20 +15,50 @@ body {
    margin-left: 2em;
 }
 
+#cards-wrapper {
+   display: grid;
+   grid-auto-columns: 1fr 1fr 1fr;
+   grid-auto-rows: auto;
+   grid-auto-flow: column;
+   grid-gap: 2rem;
+   margin: 1.5rem 2rem;
+}
+
 .card {
+   display: grid;
+   grid-auto-columns: 10rem 1fr;
+   grid-template-areas:
+    "img name"
+    "img email"
+    "img city";
+   grid-auto-rows:  1fr 1fr 1fr;
    background-color: #fff;
    border: 2px solid #e4e4e4;
-   border-radius: 5px;
-   margin: 2rem;
+   border-radius: 6px;
 }
 
 .employee-image {
+   grid-area: img;
    border-radius: 50%;
    margin: 1rem;
 }
 
 .employee-name {
+   grid-area: name;
    font-weight: bolder;
+   align-self: end;
+   height: 0rem;
+}
+
+.employee-email {
+   grid-area: email;
+   align-self: end;
+   height: 1.5rem;
+}
+
+.employee-city {
+   grid-area: city;
+   align-self: start;
 }
 
 .employee-email,
