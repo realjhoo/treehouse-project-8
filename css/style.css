@@ -21,7 +21,7 @@ body {
    grid-auto-rows: auto;
    grid-auto-flow: column;
    grid-gap: 2rem;
-   margin: 1.5rem 2rem;
+ margin: 1.5rem 2rem;
 }
 
 .card {
@@ -66,3 +66,5 @@ body {
    font-size: 0.7rem;
    color: #666;
 }
+
+/* TODO resize with media query @ 768 px and 460 */
