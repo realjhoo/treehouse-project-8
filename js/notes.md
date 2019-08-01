@@ -1,5 +1,9 @@
 **P Code**
 
+getAPIdata
+
+- get data
+
 _on load_
 
 1. the page gets the API and brings in JSON data
@@ -43,3 +47,93 @@ const api = `${proxy}https://api.darksky.net/forecast/fc6838719bc5539953da7994c9
 ## Here is a random kitten
 
 ![Kittens](https://placekitten.com/250/401 "Random kitten")
+
+### Dummy data Storage
+
+// **\*** dummy data for testing **\*\*\*\***
+const employeeData = [
+{
+image: "images/member-1.jpg",
+first_name: "victoria",
+last_name: "chambers I",
+email: "victoria.chambers80@example.com",
+city: "springfield"
+},
+{
+image: "images/member-1.jpg",
+first_name: "victoria",
+last_name: "chambers II",
+email: "victoria.chambers80@example.com",
+city: "springfield"
+},
+{
+image: "images/member-1.jpg",
+first_name: "victoria",
+last_name: "chambers III",
+email: "victoria.chambers80@example.com",
+city: "springfield"
+},
+{
+image: "images/member-1.jpg",
+first_name: "victoria",
+last_name: "chambers IV",
+email: "victoria.chambers80@example.com",
+city: "springfield"
+},
+{
+image: "images/member-1.jpg",
+first_name: "victoria",
+last_name: "chambers V",
+email: "victoria.chambers80@example.com",
+city: "springfield"
+},
+{
+image: "images/member-1.jpg",
+first_name: "victoria",
+last_name: "chambers VI",
+email: "victoria.chambers80@example.com",
+city: "springfield"
+},
+{
+image: "images/member-1.jpg",
+first_name: "victoria",
+last_name: "chambers VII",
+email: "victoria.chambers80@example.com",
+city: "springfield"
+},
+{
+image: "images/member-1.jpg",
+first_name: "victoria",
+last_name: "chambers VIII",
+email: "victoria.chambers80@example.com",
+city: "springfield"
+},
+{
+image: "images/member-1.jpg",
+first_name: "victoria",
+last_name: "chambers IX",
+email: "victoria.chambers80@example.com",
+city: "springfield"
+},
+{
+image: "images/member-1.jpg",
+first_name: "victoria",
+last_name: "chambers X",
+email: "victoria.chambers80@example.com",
+city: "springfield"
+},
+{
+image: "images/member-1.jpg",
+first_name: "victoria",
+last_name: "chambers XI",
+email: "victoria.chambers80@example.com",
+city: "springfield"
+},
+{
+image: "images/member-1.jpg",
+first_name: "victoria",
+last_name: "chambers XII",
+email: "victoria.chambers80@example.com",
+city: "springfield"
+}
+];
