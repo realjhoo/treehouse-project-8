@@ -11,7 +11,30 @@ body {
 
 .page-title {
   text-transform: uppercase;
-  margin: 2rem 0 2rem 2rem;
+  margin: 2rem 0 1.5rem 3.4rem;
+}
+
+#search-input {
+  display: block;
+  width: 380px;
+  height: 2rem;
+  font-size: 1rem;
+  color: #666;
+  background-image: url("/img/mag-glass.png");
+  background-size: 18px;
+  background-repeat: no-repeat;
+  background-position: right;
+  background-position-x: calc(100% - 12px);
+  outline: none;
+  padding-left: 1rem;
+  border: 2px solid #e4e4e4;
+  border-radius: 6px;
+  margin: 0 auto 1rem auto;
+}
+
+#search-input::placeholder {
+  color: #ccc;
+  padding-left: 2px;
 }
 
 #cards-wrapper {
@@ -78,7 +101,8 @@ body {
 
 .employee-cell,
 .employee-address,
-.employee-birthday {
+.employee-birthday,
+.employee-index {
   display: none;
   text-transform: capitalize;
 }
@@ -99,8 +123,9 @@ body {
   position: relative;
   text-align: center;
   width: 375px;
-  height: 400px;
+  height: 420px;
   background-color: #fff;
+  border: 2px solid #e4e4e4;
   border-radius: 6px;
 }
 
@@ -111,11 +136,17 @@ body {
 
 .modal-employee-name {
   font-weight: bold;
-  color: #33424b;
+  color: #333;
+  padding-bottom: 6px;
 }
 
 .modal-employee-email,
-.modal-employee-city,
+.modal-employee-city {
+  font-size: 12px;
+  color: #91979a;
+  padding: 4px;
+}
+
 .modal-employee-cell,
 .modal-employee-address,
 .modal-employee-birthday {
@@ -142,8 +173,8 @@ body {
 
 .modal-ruler {
   width: 75%;
-  border-color: #eeeeee;
-  margin: 1.2rem auto;
+  border: 0.9px solid #e4e4e4;
+  margin: 1.4rem auto;
 }
 
 .close-btn {
@@ -161,8 +192,46 @@ body {
   transform: rotate(135deg);
 }
 
+#modal-nav-forward,
+#modal-nav-back {
+  position: absolute;
+  bottom: 12px;
+  font-size: 2rem;
+  color: #33424b;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+#modal-nav-forward {
+  right: 12px;
+}
+
+#modal-nav-back {
+  left: 12px;
+}
+
+#modal-nav-forward:hover {
+  color: #e01e5a;
+  font-size: 2.5rem;
+  transform: rotate(360deg);
+}
+
+#modal-nav-back:hover {
+  color: #e01e5a;
+  font-size: 2.5rem;
+  transform: rotate(360deg);
+}
+
+.modal-employee-index {
+  display: none;
+}
+
 /* =-=-=-=-=-=-= MEDIA QUERIES =-=-=-=-=-=-=-=-=-=-=-=-= */
 @media (min-width: 768px) {
+  .page-title {
+    margin: 2rem 0 2rem 2rem;
+  }
+
   #cards-wrapper {
     grid-template-columns: 1fr 1fr;
   }

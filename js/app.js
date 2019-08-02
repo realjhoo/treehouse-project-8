@@ -1,3 +1,5 @@
+//! Copyright © 2019 Jerry L Hoover
+//! All Rights Reserved
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 function getAPIdata() {
   const api =
@@ -20,10 +22,13 @@ function getAPIdata() {
         let t_employee_state = employee_data.results[i].location.state;
         let t_employee_postcode = employee_data.results[i].location.postcode;
         let employee_birthday = employee_data.results[i].dob.date;
+        let employee_index = i;
         // format birthday, addresss and name - t_ is for temp
+        // employee_city is reused, so not a temp
         employee_birthday = parseBirthday(employee_birthday);
         employee_address = parseAddress(
           t_employee_address,
+          employee_city,
           t_employee_state,
           t_employee_postcode
         );
@@ -37,7 +42,8 @@ function getAPIdata() {
             city: employee_city,
             cell: employee_cell,
             address: employee_address,
-            birthday: employee_birthday
+            birthday: employee_birthday,
+            index: employee_index
           }
         ];
         // send the data to the cards
@@ -56,6 +62,7 @@ function showCards(employeeData) {
   let employee_cell = employeeData[0].cell;
   let employee_address = employeeData[0].address;
   let employee_birthday = employeeData[0].birthday;
+  let employee_index = employeeData[0].index;
 
   // create blank card
   let card = createCard("cards-wrapper", "div", "card");
@@ -68,6 +75,7 @@ function showCards(employeeData) {
   populateCard("span", "employee-cell", employee_cell, card);
   populateCard("span", "employee-address", employee_address, card);
   populateCard("span", "employee-birthday", employee_birthday, card);
+  populateCard("span", "employee-index", employee_index, card);
 }
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -93,13 +101,7 @@ function populateCard(tag, className, string, parent) {
   parent.appendChild(element); // append the element
 }
 
-// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-function capitalizeFirstLetter(string) {
-  // this should be done in CSS `text-transform: capitalize;` instead
-  // if unused when done, this function will be deleted
-  return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
+// =-=-=-=-=-=-=-=-=-=-=-=-= MODAL CARD =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 function openModalCard() {
   document.querySelector(".modal-mask").style.display = "flex";
@@ -125,6 +127,8 @@ function extractDataFromCard(target) {
     target.querySelector(".employee-address").textContent + " ";
   let employee_birthday =
     "Birthday: " + target.querySelector(".employee-birthday").textContent;
+  let employee_index = "";
+  employee_index = target.querySelector(".employee-index").textContent;
 
   let parent = document.getElementById("modal-card");
   populateModalCard(parent, "img", employee_image, "modal-employee-image");
@@ -140,6 +144,9 @@ function extractDataFromCard(target) {
     employee_birthday,
     "modal-employee-birthday"
   );
+  populateModalCard(parent, "span", employee_index, "modal-employee-index");
+  createNavButtons();
+  activateNavButtons();
 }
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -192,6 +199,88 @@ function activateCloseButton() {
 }
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+function createNavButtons() {
+  // when modal box is created, create nav buttons
+  createBACKbutton();
+  createFWDbutton();
+}
+
+function createFWDbutton() {
+  // ****** THE FORWARD  BUTTON ***************************
+  let parent = document.getElementById("modal-card");
+  let element = document.createElement("span");
+  element.innerHTML = "&rarrlp;";
+  element.setAttribute("id", "modal-nav-forward");
+  parent.appendChild(element);
+}
+
+function createBACKbutton() {
+  // ****** THE BACK BUTTON ***************************
+  let parent = document.getElementById("modal-card");
+  let element = document.createElement("span");
+  element.innerHTML = "&larrlp;";
+  element.setAttribute("id", "modal-nav-back");
+  parent.appendChild(element);
+}
+
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+function activateNavButtons() {
+  // event listener for modal nav buttons
+  modalMoveBack();
+  modalMoveForward();
+}
+
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+function modalMoveForward() {
+  // event listener for forward button
+  document
+    .getElementById("modal-nav-forward")
+    .addEventListener("click", function(event) {
+      let card_index = parseInt(
+        document.querySelector(".modal-employee-index").innerText
+      );
+
+      if (card_index <= 10) {
+        card_index++;
+      } else {
+        card_index = 0;
+      }
+
+      let cards = document.querySelectorAll(".card");
+      card = cards[card_index];
+      destroyModalCard();
+      createModalCard();
+      createCloseButton();
+      card.click();
+    });
+}
+
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+function modalMoveBack() {
+  // event listener for back button
+  document
+    .getElementById("modal-nav-back")
+    .addEventListener("click", function(event) {
+      let card_index = parseInt(
+        document.querySelector(".modal-employee-index").innerText
+      );
+
+      if (card_index === 0) {
+        card_index = 11;
+      } else {
+        card_index--;
+      }
+
+      let cards = document.querySelectorAll(".card");
+      card = cards[card_index];
+      destroyModalCard();
+      createModalCard();
+      createCloseButton();
+      card.click();
+    });
+}
+
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 function activateModalCard() {
   //event listener for opening modal card
   document.addEventListener("click", function(event) {
@@ -211,20 +300,52 @@ function activateModalCard() {
 }
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+function activateLiveSearch() {
+  document.getElementById("search-input").addEventListener("keyup", liveSearch);
+}
+
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+function liveSearch() {
+  const card = document.querySelectorAll(".card");
+  let search_input = document.getElementById("search-input");
+  search_input = search_input.value.toLowerCase(); // this may be a bad idea... a handle?
+
+  for (let i = 0; i < card.length; i++) {
+    // loop thru the cards
+    let name = card[i].firstChild.nextSibling; // traverse to the employee name
+    name = name.innerText; // extract the names
+    //lcase the names
+    let search = name.toLowerCase();
+    //compare the strings
+    let isIn = search.includes(search_input); // compare
+
+    if (isIn) {
+      card[i].style.display = "grid"; //show
+    } else {
+      card[i].style.display = "none"; // dont show
+    }
+  }
+}
+
+// =-=-=-=-=-=-=-=-=-=-=-= MINOR FUNCTIONS =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 function parseBirthday(birthday) {
-  // Changes date format from 1982-10-26T13:55:02Z to 01/01/91
+  // Changes date format from 1982-10-26T13:55:02Z to 10/26/82
   let fix = new Date(birthday);
   let date = fix.getDate();
   let month = fix.getMonth();
+  if (month == 0) {
+    month++;
+  }
   let year = fix.getYear();
   let fixed_birthday = month + "/" + date + "/" + year;
   return fixed_birthday;
 }
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-function parseAddress(address, state, zip) {
+function parseAddress(address, city, state, zip) {
   // join the address, state and postcode into one string
-  let fullAddress = address + ", " + state + " " + zip;
+  let fullAddress = address + " " + city + ", " + state + " " + zip;
   return fullAddress;
 }
 
@@ -239,6 +360,10 @@ function main() {
   getAPIdata();
   activateCloseButton();
   activateModalCard();
+  activateLiveSearch();
 }
 
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// =-=-=-=-=-=-=-=-=-=-= BEGIN =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 main();
