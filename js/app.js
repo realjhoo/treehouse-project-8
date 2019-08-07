@@ -54,11 +54,12 @@ function getAPIdata() {
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 function showCards(employeeData) {
+  // card data
   let employee_image = employeeData[0].image;
   let employee_name = employeeData[0].name;
   let employee_email = employeeData[0].email;
   let employee_city = employeeData[0].city;
-
+  // modal data
   let employee_cell = employeeData[0].cell;
   let employee_address = employeeData[0].address;
   let employee_birthday = employeeData[0].birthday;
@@ -308,7 +309,7 @@ function activateLiveSearch() {
 function liveSearch() {
   const card = document.querySelectorAll(".card");
   let search_input = document.getElementById("search-input");
-  search_input = search_input.value.toLowerCase(); // this may be a bad idea... a handle?
+  search_input = search_input.value.toLowerCase();
 
   for (let i = 0; i < card.length; i++) {
     // loop thru the cards
